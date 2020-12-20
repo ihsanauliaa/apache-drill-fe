@@ -4,6 +4,10 @@ import {Card} from "react-bootstrap";
 
 class DailyCases extends Component {
     render() {
+        // console.log(this.props.indonesiaCode)
+        // console.log(this.props.selectedCode)
+        // console.log(this.props.dailyIndonesia)
+        // console.log(this.props.dailySelected)
         return (
             <React.Fragment>
                 <div style={{ paddingBottom: "1rem"}}>

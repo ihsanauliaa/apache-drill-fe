@@ -113,13 +113,13 @@ class Home extends Component {
     }
 
     render() {
-        // console.log(this.state.AllDataIndonesia)
-        // console.log(this.state.DailyCasesIndonesia)
-        // console.log(this.state.DailyCasesSelected)
-        // console.log(this.state.AllDataSelected)
-        // console.log(this.state.TotalConfirmedSelected)
-        // console.log(this.state.TotalRecoveredSelected)
-        // console.log(this.state.SelectedName)
+        console.log("this is home")
+        console.log(this.state.AllDataIndonesia)
+        console.log(this.state.DailyCasesIndonesia)
+        console.log(this.state.DailyCasesSelected)
+        console.log(this.state.AllDataSelected)
+        console.log(this.state.TotalConfirmedSelected)
+        console.log(this.state.TotalRecoveredSelected)
         return (
             <React.Fragment>
                 <Helmet>
@@ -147,7 +147,7 @@ class Home extends Component {
                             <RecoveredStats indonesiaCode={this.state.ISOCodeIndonesia} indonesiaName={this.state.IndonesiaName} selectedCode={this.state.ISOCodeSelected} selectedName={this.state.SelectedName} indonesiaRecovered={this.state.TotalRecoveredIndonesia} selectedRecovered={this.state.TotalRecoveredSelected} indonesiaConfirmed={this.state.TotalConfirmedIndonesia} selectedConfirmed={this.state.TotalConfirmedSelected}/>
                         </Col>
                         <Col>
-                            <AccumDeadRecoveredHospitalized/>
+                            <AccumDeadRecoveredHospitalized allDataIndonesia={this.state.AllDataIndonesia} allDataSelected={this.state.AllDataSelected} />
                         </Col>
                     </Row>
                 </Container>

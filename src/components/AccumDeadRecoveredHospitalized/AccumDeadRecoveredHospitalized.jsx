@@ -10,29 +10,18 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 
-// const useStyles = makeStyles({
-//     table: {
-//       minWidth: 650,
-//     },
-//   });
   
 function createData(komponen, valId, valSlc) {
     return { komponen, valId, valSlc };
 }
-  
-// const rows = [
-//     createData('Dead', props.allDataIndonesia.TotalDeaths, props.allDataSelected.TotalDeaths),
-//     createData('Recovered', props.allDataIndonesia.TotalRecovered, props.allDataSelected.TotalRecovered),
-//     createData('Hospitalized', props.allDataIndonesia.TotalHospitalised, props.allDataSelected.TotalHospitalised)
-// ];
 
 const rows = (props) => {
     console.log(">>>rows<<<");
     console.log(props);
     const data = [
-        createData('Dead', props.allDataIndonesia.TotalDeaths, props.allDataSelected.TotalDeaths),
-        createData('Recovered', props.allDataIndonesia.TotalRecovered, props.allDataSelected.TotalRecovered),
-        createData('Hospitalized', props.allDataIndonesia.TotalHospitalised, props.allDataSelected.TotalHospitalised)
+        createData('Dead', props.allDataIndonesia[0].TotalDeaths, props.allDataSelected[0].TotalDeaths),
+        createData('Recovered', props.allDataIndonesia[0].TotalRecovered, props.allDataSelected[0].TotalRecovered),
+        createData('Hospitalized', props.allDataIndonesia[0].TotalHospitalised, props.allDataSelected[0].TotalHospitalised)
     ];
     return data;
 }
@@ -41,7 +30,7 @@ class AccumDeadRecoveredHospitalized extends Component {
     constructor(props) 
     { 
         super(props); 
-        this.state = { data : []}; 
+        this.state = { data : rows(this.props)}; 
     } 
     render() {
         console.log("data tabel <<<<<")
@@ -55,7 +44,6 @@ class AccumDeadRecoveredHospitalized extends Component {
                     <Card.Body>
                         <Card.Text>
                             <TableContainer component={Paper}>
-                                {/* <Table className={classes.table} aria-label="simple table"> */}
                                 <Table aria-label="simple table">
                                     <TableHead>
                                     <TableRow>

@@ -31,17 +31,21 @@ const rows = (props) => {
 }
 
 class AccumDeadRecoveredHospitalized extends Component {
-    constructor(props)
-    {
-        super(props);
-        this.state = { data : rows(this.props)};
+    // constructor(props)
+    // {
+    //     super(props);
+    //     this.state = { data : rows(this.props)};
+    // }
+    state = {
+        data: rows(this.props)
     }
     render() {
         // console.log("data tabel <<<<<")
-        console.log(this.state.data)
+        // console.log(rows(this.props))
         // console.log("<<< props <<<")
         // console.log(rows(this.props))
         // console.log(this.props)
+        console.log(this.state.data)
         return (
             <React.Fragment>
                 <Card>

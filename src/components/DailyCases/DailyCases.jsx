@@ -22,8 +22,8 @@ const dataToShow = (props) =>{
             }
         })
     })
-    console.log("After mapping");
-    console.log(list);
+    // console.log("After mapping");
+    // console.log(list);
     return list;
 }
 const selectedName = "Selected's total case";

@@ -12,14 +12,16 @@ class RecoveredStats extends Component {
         // console.log(this.props.selectedRecovered)
         return (
             <React.Fragment>
-                <Card>
-                    <Card.Header>Recovered</Card.Header>
-                    <Card.Body>
-                        <Card.Text>
-                            Placeholder
-                        </Card.Text>
-                    </Card.Body>
-                </Card>
+                <div style={{ paddingBottom: "1rem"}}>
+                    <Card>
+                        <Card.Header>Recovered</Card.Header>
+                        <Card.Body>
+                            <Card.Text>
+                                Placeholder
+                            </Card.Text>
+                        </Card.Body>
+                    </Card>
+                </div>
             </React.Fragment>
         );
     }

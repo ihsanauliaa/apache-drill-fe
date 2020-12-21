@@ -9,7 +9,7 @@ class CountrySelector extends Component {
         return (
             <React.Fragment>
                 <div style={{ display: "inline-block"}} className={styles.selector}>
-                    <h2 style={{ paddingTop: "2rem", paddingBottom: "1rem"}}>Compare Indonesia with: </h2>
+                    <h2 style={{ paddingTop: "2rem", paddingBottom: "1rem"}}>Compare Covid in Indonesia with: </h2>
                 </div>
                 <div style={{ display: "inline-block", minWidth: "40%", marginLeft: "10px"}}>
                     <Select

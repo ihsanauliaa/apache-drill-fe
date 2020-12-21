@@ -111,6 +111,7 @@ class Home extends Component {
     }
 
     render() {
+        // console.log("this is home")
         // console.log(this.state.AllDataIndonesia)
         // console.log(this.state.DailyCasesIndonesia)
         // console.log(this.state.DailyCasesSelected)

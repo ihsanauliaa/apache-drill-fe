@@ -16,27 +16,36 @@ function createData(komponen, valId, valSlc) {
 }
 
 const rows = (props) => {
-    console.log(">>>rows<<<");
-    console.log(props);
-    const data = [
-        createData('Dead', props.allDataIndonesia[0].TotalDeaths, props.allDataSelected[0].TotalDeaths),
-        createData('Recovered', props.allDataIndonesia[0].TotalRecovered, props.allDataSelected[0].TotalRecovered),
-        createData('Hospitalized', props.allDataIndonesia[0].TotalHospitalised, props.allDataSelected[0].TotalHospitalised)
-    ];
-    return data;
+    // console.log(">>>rows<<<");
+    // console.log(props);
+    // console.log(props.allDataIndonesia.length)
+    // console.log(props.allDataSelected.length)
+    if (props.allDataIndonesia.length === 1 && props.allDataSelected.length === 1) {
+        const data = [
+            createData('Dead', props.allDataIndonesia[0].TotalDeaths, props.allDataSelected[0].TotalDeaths),
+            createData('Recovered', props.allDataIndonesia[0].TotalRecovered, props.allDataSelected[0].TotalRecovered),
+            createData('Hospitalized', props.allDataIndonesia[0].TotalHospitalised, props.allDataSelected[0].TotalHospitalised)
+        ];
+        return data;
+    }
 }
 
 class AccumDeadRecoveredHospitalized extends Component {
-    constructor(props) 
-    { 
-        super(props); 
-        this.state = { data : rows(this.props)}; 
-    } 
+    // constructor(props)
+    // {
+    //     super(props);
+    //     this.state = { data : rows(this.props)};
+    // }
+    state = {
+        data: rows(this.props)
+    }
     render() {
-        console.log("data tabel <<<<<")
+        // console.log("data tabel <<<<<")
+        // console.log(rows(this.props))
+        // console.log("<<< props <<<")
+        // console.log(rows(this.props))
+        // console.log(this.props)
         console.log(this.state.data)
-        console.log("<<< props <<<")
-        console.log(this.props)
         return (
             <React.Fragment>
                 <Card>
@@ -47,7 +56,7 @@ class AccumDeadRecoveredHospitalized extends Component {
                                 <Table aria-label="simple table">
                                     <TableHead>
                                     <TableRow>
-                                        <TableCell></TableCell>
+                                        <TableCell/>
                                         <TableCell align="right">Indonesia</TableCell>
                                         <TableCell align="right">Selected</TableCell>
                                     </TableRow>

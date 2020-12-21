@@ -23,7 +23,10 @@ class Home extends Component {
         DailyCasesIndonesia: [],
         DailyCasesSelected: [],
         IndonesiaName: "Indonesia",
-        SelectedName: ""
+        SelectedName: "",
+        isLoadingIndonesia: true,
+        isLoadingSelected: true,
+        isLoadingCountryList: true
     }
 
     componentDidMount() {
@@ -46,7 +49,8 @@ class Home extends Component {
                 });
             }
             this.setState({
-                countryList: fetchedData
+                countryList: fetchedData,
+                isLoadingCountryList: false
             });
         })
     }
@@ -76,7 +80,8 @@ class Home extends Component {
                 TotalRecoveredIndonesia: recoveredIndonesia,
                 TotalConfirmedIndonesia: confirmedIndonesia,
                 ISOCodeIndonesia: codeIndonesia,
-                DailyCasesIndonesia: dailyIndonesia
+                DailyCasesIndonesia: dailyIndonesia,
+                isLoadingIndonesia: false
             });
         })
     }
@@ -107,52 +112,69 @@ class Home extends Component {
                 TotalRecoveredSelected: recoveredSelected,
                 TotalConfirmedSelected: confirmedSelected,
                 ISOCodeSelected: codeSelected,
-                DailyCasesSelected: dailySelected
+                DailyCasesSelected: dailySelected,
+                isLoadingSelected: false
             });
         })
     }
 
     render() {
-        console.log("this is home")
-        console.log(this.state.AllDataIndonesia)
-        console.log(this.state.DailyCasesIndonesia)
-        console.log(this.state.DailyCasesSelected)
-        console.log(this.state.AllDataSelected)
-        console.log(this.state.TotalConfirmedSelected)
-        console.log(this.state.TotalRecoveredSelected)
-        return (
-            <React.Fragment>
-                <Helmet>
-                    <title>{ TITLE }</title>
-                </Helmet>
-                <Container fluid>
-                    <div style={{ display: "inline-block"}}>
-                        <h2 style={{ paddingTop: "2rem", paddingBottom: "1rem", marginRight: "10px"}}>Compare Indonesia with: </h2>
+        // console.log("this is home")
+        // console.log(this.state.AllDataIndonesia)
+        // console.log(this.state.DailyCasesIndonesia)
+        // console.log(this.state.DailyCasesSelected)
+        // console.log(this.state.AllDataSelected)
+        // console.log(this.state.TotalConfirmedSelected)
+        // console.log(this.state.TotalRecoveredSelected)
+        if (this.state.isLoadingCountryList || this.state.isLoadingIndonesia || this.state.isLoadingSelected) {
+            return (
+                <React.Fragment>
+                    <Helmet>
+                        <title>{ TITLE }</title>
+                    </Helmet>
+                    <div style={{
+                        position: 'absolute', left: '50%', top: '50%',
+                        transform: 'translate(-50%, -50%)'
+                    }}>
+                        <h1 className="font-weight-bolder">Loading ...</h1>
                     </div>
-                    <div style={{ display: "inline-block", minWidth: "40%", paddingBottom: "1rem"}}>
-                        <Select
-                            options={this.state.countryList.map(opt => ({ label: opt.name, value: opt.code }))}
-                            onChange={opt => this.setState({
-                                SelectedName: opt.label
-                            })}
-                        />
-                    </div>
-                    <Row>
-                        <Col>
-                            <DailyCases indonesiaCode={this.state.ISOCodeIndonesia} selectedCode={this.state.ISOCodeSelected} dailyIndonesia={this.state.DailyCasesIndonesia} dailySelected={this.state.DailyCasesSelected}/>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col>
-                            <RecoveredStats indonesiaCode={this.state.ISOCodeIndonesia} indonesiaName={this.state.IndonesiaName} selectedCode={this.state.ISOCodeSelected} selectedName={this.state.SelectedName} indonesiaRecovered={this.state.TotalRecoveredIndonesia} selectedRecovered={this.state.TotalRecoveredSelected} indonesiaConfirmed={this.state.TotalConfirmedIndonesia} selectedConfirmed={this.state.TotalConfirmedSelected}/>
-                        </Col>
-                        <Col>
-                            <AccumDeadRecoveredHospitalized allDataIndonesia={this.state.AllDataIndonesia} allDataSelected={this.state.AllDataSelected} />
-                        </Col>
-                    </Row>
-                </Container>
-            </React.Fragment>
-        );
+                </React.Fragment>
+            )
+        } else {
+            return (
+                <React.Fragment>
+                    <Helmet>
+                        <title>{ TITLE }</title>
+                    </Helmet>
+                    <Container fluid>
+                        <div style={{ display: "inline-block"}}>
+                            <h2 style={{ paddingTop: "2rem", paddingBottom: "1rem", marginRight: "10px"}}>Compare Indonesia with: </h2>
+                        </div>
+                        <div style={{ display: "inline-block", minWidth: "40%", paddingBottom: "1rem"}}>
+                            <Select
+                                options={this.state.countryList.map(opt => ({ label: opt.name, value: opt.code }))}
+                                onChange={opt => this.setState({
+                                    SelectedName: opt.label
+                                })}
+                            />
+                        </div>
+                        <Row>
+                            <Col>
+                                <DailyCases indonesiaCode={this.state.ISOCodeIndonesia} selectedCode={this.state.ISOCodeSelected} dailyIndonesia={this.state.DailyCasesIndonesia} dailySelected={this.state.DailyCasesSelected}/>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col>
+                                <RecoveredStats indonesiaCode={this.state.ISOCodeIndonesia} indonesiaName={this.state.IndonesiaName} selectedCode={this.state.ISOCodeSelected} selectedName={this.state.SelectedName} indonesiaRecovered={this.state.TotalRecoveredIndonesia} selectedRecovered={this.state.TotalRecoveredSelected} indonesiaConfirmed={this.state.TotalConfirmedIndonesia} selectedConfirmed={this.state.TotalConfirmedSelected}/>
+                            </Col>
+                            <Col>
+                                <AccumDeadRecoveredHospitalized allDataIndonesia={this.state.AllDataIndonesia} allDataSelected={this.state.AllDataSelected} />
+                            </Col>
+                        </Row>
+                    </Container>
+                </React.Fragment>
+            );
+        }
     }
 }
 

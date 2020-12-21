@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import { Helmet } from 'react-helmet';
 import {Col, Container, Row} from "react-bootstrap";
-import CountrySelector from "../components/CountrySelector/CountrySelector";
 import DailyCases from "../components/DailyCases/DailyCases";
 import RecoveredStats from "../components/RecoveredStats/RecoveredStats";
 import AccumDeadRecoveredHospitalized
     from "../components/AccumDeadRecoveredHospitalized/AccumDeadRecoveredHospitalized";
+import Select from "react-select";
 
 const TITLE = 'Kelompok 16 - Apache Drill'
 
@@ -22,6 +22,8 @@ class Home extends Component {
         TotalConfirmedSelected: "",
         DailyCasesIndonesia: [],
         DailyCasesSelected: [],
+        IndonesiaName: "Indonesia",
+        SelectedName: ""
     }
 
     componentDidMount() {
@@ -117,13 +119,24 @@ class Home extends Component {
         // console.log(this.state.AllDataSelected)
         // console.log(this.state.TotalConfirmedSelected)
         // console.log(this.state.TotalRecoveredSelected)
+        // console.log(this.state.SelectedName)
         return (
             <React.Fragment>
                 <Helmet>
                     <title>{ TITLE }</title>
                 </Helmet>
                 <Container fluid>
-                    <CountrySelector countries={this.state.countryList}/>
+                    <div style={{ display: "inline-block"}}>
+                        <h2 style={{ paddingTop: "2rem", paddingBottom: "1rem", marginRight: "10px"}}>Compare Indonesia with: </h2>
+                    </div>
+                    <div style={{ display: "inline-block", minWidth: "40%", paddingBottom: "1rem"}}>
+                        <Select
+                            options={this.state.countryList.map(opt => ({ label: opt.name, value: opt.code }))}
+                            onChange={opt => this.setState({
+                                SelectedName: opt.label
+                            })}
+                        />
+                    </div>
                     <Row>
                         <Col>
                             <DailyCases indonesiaCode={this.state.ISOCodeIndonesia} selectedCode={this.state.ISOCodeSelected} dailyIndonesia={this.state.DailyCasesIndonesia} dailySelected={this.state.DailyCasesSelected}/>
@@ -131,7 +144,7 @@ class Home extends Component {
                     </Row>
                     <Row>
                         <Col>
-                            <RecoveredStats  indonesiaCode={this.state.ISOCodeIndonesia} selectedCode={this.state.ISOCodeSelected} indonesiaRecovered={this.state.TotalRecoveredIndonesia} selectedRecovered={this.state.TotalRecoveredSelected} indonesiaConfirmed={this.state.TotalConfirmedIndonesia} selectedConfirmed={this.state.TotalConfirmedSelected}/>
+                            <RecoveredStats indonesiaCode={this.state.ISOCodeIndonesia} indonesiaName={this.state.IndonesiaName} selectedCode={this.state.ISOCodeSelected} selectedName={this.state.SelectedName} indonesiaRecovered={this.state.TotalRecoveredIndonesia} selectedRecovered={this.state.TotalRecoveredSelected} indonesiaConfirmed={this.state.TotalConfirmedIndonesia} selectedConfirmed={this.state.TotalConfirmedSelected}/>
                         </Col>
                         <Col>
                             <AccumDeadRecoveredHospitalized/>

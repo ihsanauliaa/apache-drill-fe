@@ -10,9 +10,13 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 
-  
+
 function createData(komponen, valId, valSlc) {
     return { komponen, valId, valSlc };
+}
+
+function createDataIndonesiaOnly(komponen, valId) {
+    return { komponen, valId };
 }
 
 const rows = (props) => {
@@ -20,14 +24,49 @@ const rows = (props) => {
     // console.log(props);
     // console.log(props.allDataIndonesia.length)
     // console.log(props.allDataSelected.length)
-    if (props.allDataIndonesia.length === 1 && props.allDataSelected.length === 1) {
+    if (props.allDataIndonesia.length !== 0 && props.allDataSelected.length !== 0) {
         const data = [
-            createData('Dead', props.allDataIndonesia[0].TotalDeaths, props.allDataSelected[0].TotalDeaths),
-            createData('Recovered', props.allDataIndonesia[0].TotalRecovered, props.allDataSelected[0].TotalRecovered),
-            createData('Hospitalized', props.allDataIndonesia[0].TotalHospitalised, props.allDataSelected[0].TotalHospitalised)
+            createData('Confirmed', checkDataAvailabilityDeathsHospitalised(props.allDataIndonesia[props.allDataIndonesia.length - 1].TotalConfirmed), checkDataAvailabilityDeathsHospitalised(props.allDataSelected[props.allDataSelected.length - 1].TotalConfirmed)),
+            createData('Recovered', checkDataAvailabilityDeathsHospitalised(props.allDataIndonesia[props.allDataIndonesia.length - 1].TotalRecovered), checkDataAvailability(props.listAPIRecovered, props.selectedName)),
+            createData('Dead', checkDataAvailabilityDeathsHospitalised(props.allDataIndonesia[props.allDataIndonesia.length - 1].TotalDeaths), checkDataAvailabilityDeathsHospitalised(props.allDataSelected[props.allDataSelected.length - 1].TotalDeaths)),
+            createData('Hospitalized', checkDataAvailabilityDeathsHospitalised(props.allDataIndonesia[props.allDataIndonesia.length - 1].TotalHospitalised), checkDataAvailabilityDeathsHospitalised(props.allDataSelected[props.allDataSelected.length - 1].TotalHospitalised))
         ];
         return data;
     }
+}
+
+const rowsIndonesiaOnly = (props) => {
+    if (props.allDataIndonesia.length !== 0) {
+        return [
+            createDataIndonesiaOnly('Confirmed', checkDataAvailabilityDeathsHospitalised(props.allDataIndonesia[props.allDataIndonesia.length - 1].TotalConfirmed)),
+            createDataIndonesiaOnly('Recovered', checkDataAvailabilityDeathsHospitalised(props.allDataIndonesia[props.allDataIndonesia.length - 1].TotalRecovered)),
+            createDataIndonesiaOnly('Dead', checkDataAvailabilityDeathsHospitalised(props.allDataIndonesia[props.allDataIndonesia.length - 1].TotalDeaths)),
+            createDataIndonesiaOnly('Hospitalized', checkDataAvailabilityDeathsHospitalised(props.allDataIndonesia[props.allDataIndonesia.length - 1].TotalHospitalised))
+        ];
+    }
+}
+
+const checkDataAvailability = (data, name) => {
+    let number = "No Data";
+    for (let i = 0; i < data.length; i++) {
+        // console.log(data[i].country)
+        if (name === data[i].country) {
+            console.log("ada")
+            number = data[i].recovered
+            return number
+        }
+    }
+    return number;
+}
+
+const checkDataAvailabilityDeathsHospitalised = (data) => {
+    let number = "No Data";
+    // console.log(data)
+    if (data !== undefined) {
+        number = parseInt(data)
+        return number
+    }
+    return number
 }
 
 class AccumDeadRecoveredHospitalized extends Component {
@@ -36,49 +75,98 @@ class AccumDeadRecoveredHospitalized extends Component {
     //     super(props);
     //     this.state = { data : rows(this.props)};
     // }
+    // state = {
+    //     data: rows(this.props)
+    // }
     state = {
-        data: rows(this.props)
+        data: []
     }
+
+    // checkSelectedAvailability = (data) => {
+    //     if (data.length !== 0) {
+    //         this.setState({
+    //             data: rows(data)
+    //         }, () =>
+    //             console.log(this.state.data))
+    //     }
+    //     return this.state.data
+    // }
+
     render() {
         // console.log("data tabel <<<<<")
         // console.log(rows(this.props))
         // console.log("<<< props <<<")
         // console.log(rows(this.props))
         // console.log(this.props)
-        console.log(this.state.data)
-        return (
-            <React.Fragment>
-                <Card>
-                    <Card.Header>Other Stats</Card.Header>
-                    <Card.Body>
-                        <Card.Text>
+        // console.log(this.state.data)
+        // console.log(this.props.allDataIndonesia[this.props.allDataIndonesia.length - 1].TotalHospitalised)
+        // console.log()
+        // console.log(this.props.listAPIRecovered)
+        // console.log(this.props.selectedName)
+        if (this.props.allDataSelected.length === 0) {
+            return (
+                <React.Fragment>
+                    <Card style={{marginBottom: "2rem"}}>
+                        <Card.Header style={{fontWeight: "550", fontSize: "20px"}}>Other Stats</Card.Header>
+                        <Card.Body>
                             <TableContainer component={Paper}>
                                 <Table aria-label="simple table">
                                     <TableHead>
-                                    <TableRow>
-                                        <TableCell/>
-                                        <TableCell align="right">Indonesia</TableCell>
-                                        <TableCell align="right">Selected</TableCell>
-                                    </TableRow>
+                                        <TableRow>
+                                            <TableCell>Statistics</TableCell>
+                                            <TableCell align="right">Indonesia</TableCell>
+                                        </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                    {this.state.data.map((data) => (
-                                        <TableRow key={data.komponen}>
-                                        <TableCell component="th" scope="row">
-                                            {data.komponen}
-                                        </TableCell>
-                                        <TableCell align="right">{data.valId}</TableCell>
-                                        <TableCell align="right">{data.valSlc}</TableCell>
-                                        </TableRow>
-                                    ))}
+                                        {rowsIndonesiaOnly(this.props).map((data) => (
+                                            <TableRow key={data.komponen}>
+                                                <TableCell component="th" scope="row">
+                                                    {data.komponen}
+                                                </TableCell>
+                                                <TableCell align="right">{data.valId}</TableCell>
+                                            </TableRow>
+                                        ))}
                                     </TableBody>
                                 </Table>
                             </TableContainer>
-                        </Card.Text>
-                    </Card.Body>
-                </Card>
-            </React.Fragment>
-        );
+                        </Card.Body>
+                    </Card>
+                </React.Fragment>
+            )
+        } else {
+            return (
+                <React.Fragment>
+                    <Card style={{marginBottom: "2rem"}}>
+                        <Card.Header style={{fontWeight: "550", fontSize: "20px"}}>Other Stats</Card.Header>
+                        <Card.Body>
+                            <TableContainer component={Paper}>
+                                <Table aria-label="simple table">
+                                    <TableHead>
+                                        <TableRow>
+                                            <TableCell>Statistics</TableCell>
+                                            <TableCell align="right">Indonesia</TableCell>
+                                            <TableCell align="right">{this.props.selectedName}</TableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        {rows(this.props).map((data) => (
+                                            <TableRow key={data.komponen}>
+                                                <TableCell component="th" scope="row">
+                                                    {/*{console.log(data.komponen)}*/}
+                                                    {data.komponen}
+                                                </TableCell>
+                                                <TableCell align="right">{data.valId}</TableCell>
+                                                <TableCell align="right">{data.valSlc}</TableCell>
+                                            </TableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+                        </Card.Body>
+                    </Card>
+                </React.Fragment>
+            );
+        }
     }
 }
 

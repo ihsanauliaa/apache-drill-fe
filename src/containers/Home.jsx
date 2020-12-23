@@ -12,8 +12,8 @@ const TITLE = 'Kelompok 16 - Apache Drill'
 class Home extends Component {
     state = {
         countryList: [],
-        AllDataIndonesia: [],
-        AllDataSelected: [],
+        // AllDataIndonesia: [],
+        // AllDataSelected: [],
         ISOCodeIndonesia: "",
         ISOCodeSelected: "",
         TotalRecoveredIndonesia: "",
@@ -24,28 +24,45 @@ class Home extends Component {
         DailyCasesSelected: [],
         IndonesiaName: "Indonesia",
         SelectedName: "",
+        Recovered: [],
+        isSelected: false,
         isLoadingIndonesia: true,
-        isLoadingSelected: true,
-        isLoadingCountryList: true
+        // isLoadingSelected: true,
+        isLoadingCountryList: true,
+        isLoadingRecovered: true
     }
 
     componentDidMount() {
         this.fetchCountry();
         this.fetchIndonesia();
-        this.fetchSelected();
+        // this.fetchSelected();
+        this.fetchRecovered();
     }
+
+    handleApply = (country_name, country_code) => {
+        // console.log(country_code)
+        let name = country_name
+        let code = country_code
+        // console.log(name)
+        this.setState({
+            SelectedName: name,
+            ISOCodeSelected: code
+        }, () =>
+            this.fetchSelected())
+        // this.fetchSelected();
+    };
 
     fetchCountry = () => {
         const URL = "https://run.mocky.io/";
-        fetch(URL + "v3/1ab8faa8-4bcb-4f9e-8eed-a3c848ad4b57", {
+        fetch(URL + "v3/9f5223f7-864d-489b-af1f-11cf2d070bfa", {
             method: "GET",
         }).then(response => {
             return response.json();
         }).then((data) => {
             const fetchedData = [];
-            for (let key in data.result) {
+            for (let key in data.data) {
                 fetchedData.push({
-                    ...data.result[key]
+                    ...data.data[key]
                 });
             }
             this.setState({
@@ -54,9 +71,30 @@ class Home extends Component {
             });
         })
     }
+
+    fetchRecovered = () => {
+        const URL = "https://api.apify.com/";
+        fetch(URL + "v2/key-value-stores/tVaYRsPHLjNdNBu7S/records/LATEST?disableRedirect=true", {
+            method: "GET",
+        }).then(response => {
+            return response.json();
+        }).then((data) => {
+            const fetchedData = [];
+            for (let key in data) {
+                fetchedData.push({
+                    ...data[key]
+                });
+            }
+            this.setState({
+                Recovered: fetchedData,
+                isLoadingRecovered: false
+            });
+        })
+    }
+
     fetchIndonesia = () => {
         const URL = "https://run.mocky.io/";
-        fetch(URL + "v3/67fc448f-2ee7-41e8-b953-c92a04e05b31", {
+        fetch(URL + "v3/70f501d1-87f4-4e84-a4f0-aa0e71817086", {
             method: "GET",
         }).then(response => {
             return response.json();
@@ -64,22 +102,22 @@ class Home extends Component {
             const fetchedData = [];
             let recoveredIndonesia;
             let confirmedIndonesia;
-            let codeIndonesia;
+            // let codeIndonesia;
             let dailyIndonesia;
             for (let key in data.result) {
                 fetchedData.push({
                     ...data.result[key]
                 });
             }
-            recoveredIndonesia = data.result[0].TotalRecovered;
-            confirmedIndonesia = data.result[0].TotalConfirmed;
-            codeIndonesia = data.result[0].code;
-            dailyIndonesia = data.result[0].daily;
+            recoveredIndonesia = data.result[data.result.length - 1].TotalRecovered;
+            confirmedIndonesia = data.result[data.result.length - 1].TotalConfirmed;
+            // codeIndonesia = data.result[0].code;
+            dailyIndonesia = data.result;
             this.setState({
-                AllDataIndonesia: fetchedData,
-                TotalRecoveredIndonesia: recoveredIndonesia,
-                TotalConfirmedIndonesia: confirmedIndonesia,
-                ISOCodeIndonesia: codeIndonesia,
+                // AllDataIndonesia: fetchedData,
+                TotalRecoveredIndonesia: parseInt(recoveredIndonesia),
+                TotalConfirmedIndonesia: parseInt(confirmedIndonesia),
+                // ISOCodeIndonesia: codeIndonesia,
                 DailyCasesIndonesia: dailyIndonesia,
                 isLoadingIndonesia: false
             });
@@ -87,33 +125,35 @@ class Home extends Component {
     }
 
     fetchSelected = () => {
-        const URL = "https://run.mocky.io/";
-        fetch(URL + "v3/b1334e3c-d5df-4c80-be38-8c6708eff2b9", {
+        const URL = "http://127.0.0.1:5000/";
+        // console.log(URL + "country?iso=" + this.state.ISOCodeSelected)
+        fetch(URL + "country?iso=" + this.state.ISOCodeSelected, {
             method: "GET",
         }).then(response => {
             return response.json();
         }).then((data) => {
             const fetchedData = [];
-            let recoveredSelected;
+            // let recoveredSelected;
             let confirmedSelected;
-            let codeSelected;
+            // let codeSelected;
             let dailySelected;
             for (let key in data.result) {
                 fetchedData.push({
                     ...data.result[key]
                 });
             }
-            recoveredSelected = data.result[0].TotalRecovered;
-            confirmedSelected = data.result[0].TotalConfirmed;
-            codeSelected = data.result[0].code;
-            dailySelected = data.result[0].daily;
+            // recoveredSelected = data.result[data.result.length - 1].TotalRecovered;
+            confirmedSelected = data.result[data.result.length - 1].TotalConfirmed;
+            // codeSelected = data.result[data.result.length - 1].code;
+            dailySelected = data.result;
+            // console.log(data.result)
             this.setState({
-                AllDataSelected: fetchedData,
-                TotalRecoveredSelected: recoveredSelected,
-                TotalConfirmedSelected: confirmedSelected,
-                ISOCodeSelected: codeSelected,
+                // AllDataSelected: fetchedData,
+                // TotalRecoveredSelected: recoveredSelected,
+                TotalConfirmedSelected: parseInt(confirmedSelected),
+                // ISOCodeSelected: codeSelected,
                 DailyCasesSelected: dailySelected,
-                isLoadingSelected: false
+                // isLoadingSelected: false
             });
         })
     }
@@ -126,7 +166,15 @@ class Home extends Component {
         // console.log(this.state.AllDataSelected)
         // console.log(this.state.TotalConfirmedSelected)
         // console.log(this.state.TotalRecoveredSelected)
-        if (this.state.isLoadingCountryList || this.state.isLoadingIndonesia || this.state.isLoadingSelected) {
+        // console.log(this.state.DailyCasesSelected)
+        // console.log(this.state.DailyCasesIndonesia)
+        // console.log(this.state.TotalConfirmedSelected)
+        // console.log(this.state.TotalConfirmedIndonesia)
+        // console.log(this.state.TotalRecoveredIndonesia)
+        // console.log(this.state.SelectedName)
+        // console.log(this.state.ISOCodeSelected)
+        if (this.state.isLoadingCountryList || this.state.isLoadingIndonesia || this.state.isLoadingRecovered) {
+            // console.log(this.state.Recovered)
             return (
                 <React.Fragment>
                     <Helmet>
@@ -152,23 +200,21 @@ class Home extends Component {
                         </div>
                         <div style={{ display: "inline-block", minWidth: "40%", paddingBottom: "1rem"}}>
                             <Select
-                                options={this.state.countryList.map(opt => ({ label: opt.name, value: opt.code }))}
-                                onChange={opt => this.setState({
-                                    SelectedName: opt.label
-                                })}
+                                options={this.state.countryList.map(opt => ({ label: opt.location, value: opt.iso_code }))}
+                                onChange={opt => this.handleApply(opt.label, opt.value)}
                             />
                         </div>
                         <Row>
                             <Col>
-                                <DailyCases indonesiaCode={this.state.ISOCodeIndonesia} selectedCode={this.state.ISOCodeSelected} dailyIndonesia={this.state.DailyCasesIndonesia} dailySelected={this.state.DailyCasesSelected}/>
+                                <DailyCases dailyIndonesia={this.state.DailyCasesIndonesia} dailySelected={this.state.DailyCasesSelected} selectedName={this.state.SelectedName}/>
                             </Col>
                         </Row>
                         <Row>
                             <Col>
-                                <RecoveredStats indonesiaCode={this.state.ISOCodeIndonesia} indonesiaName={this.state.IndonesiaName} selectedCode={this.state.ISOCodeSelected} selectedName={this.state.SelectedName} indonesiaRecovered={this.state.TotalRecoveredIndonesia} selectedRecovered={this.state.TotalRecoveredSelected} indonesiaConfirmed={this.state.TotalConfirmedIndonesia} selectedConfirmed={this.state.TotalConfirmedSelected}/>
+                                <RecoveredStats indonesiaName={this.state.IndonesiaName} selectedName={this.state.SelectedName} indonesiaRecovered={this.state.TotalRecoveredIndonesia} indonesiaConfirmed={this.state.TotalConfirmedIndonesia} selectedConfirmed={this.state.TotalConfirmedSelected} listAPIRecovered={this.state.Recovered}/>
                             </Col>
                             <Col>
-                                <AccumDeadRecoveredHospitalized allDataIndonesia={this.state.AllDataIndonesia} allDataSelected={this.state.AllDataSelected} />
+                                <AccumDeadRecoveredHospitalized allDataIndonesia={this.state.DailyCasesIndonesia} allDataSelected={this.state.DailyCasesSelected} selectedName={this.state.SelectedName} listAPIRecovered={this.state.Recovered}/>
                             </Col>
                         </Row>
                     </Container>

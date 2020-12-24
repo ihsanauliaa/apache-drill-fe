@@ -24,7 +24,8 @@ const rows = (props) => {
             createData('Confirmed', checkDataAvailabilityDeathsHospitalised(props.allDataIndonesia[props.allDataIndonesia.length - 1].TotalConfirmed), checkDataAvailabilityDeathsHospitalised(props.allDataSelected[props.allDataSelected.length - 1].TotalConfirmed)),
             createData('Recovered', checkDataAvailabilityDeathsHospitalised(props.allDataIndonesia[props.allDataIndonesia.length - 1].TotalRecovered), checkDataAvailability(props.listAPIRecovered, props.selectedName)),
             createData('Dead', checkDataAvailabilityDeathsHospitalised(props.allDataIndonesia[props.allDataIndonesia.length - 1].TotalDeaths), checkDataAvailabilityDeathsHospitalised(props.allDataSelected[props.allDataSelected.length - 1].TotalDeaths)),
-            createData('Hospitalized', checkDataAvailabilityDeathsHospitalised(props.allDataIndonesia[props.allDataIndonesia.length - 1].TotalHospitalized), checkDataAvailabilityDeathsHospitalised(props.allDataSelected[props.allDataSelected.length - 1].TotalHospitalised))
+            createData('Hospitalized', checkDataAvailabilityDeathsHospitalised(props.allDataIndonesia[props.allDataIndonesia.length - 1].TotalHospitalized), checkDataAvailabilityDeathsHospitalised(props.allDataSelected[props.allDataSelected.length - 1].TotalHospitalised)),
+            createData('Cases per Million', checkDataAvailabilityCasesPerMillion(props.indCasesPerMillion), checkDataAvailabilityCasesPerMillion(props.allDataSelected[props.allDataSelected.length - 1].CasesPerMillion))
         ];
         return data;
     }
@@ -36,7 +37,8 @@ const rowsIndonesiaOnly = (props) => {
             createDataIndonesiaOnly('Confirmed', checkDataAvailabilityDeathsHospitalised(props.allDataIndonesia[props.allDataIndonesia.length - 1].TotalConfirmed)),
             createDataIndonesiaOnly('Recovered', checkDataAvailabilityDeathsHospitalised(props.allDataIndonesia[props.allDataIndonesia.length - 1].TotalRecovered)),
             createDataIndonesiaOnly('Dead', checkDataAvailabilityDeathsHospitalised(props.allDataIndonesia[props.allDataIndonesia.length - 1].TotalDeaths)),
-            createDataIndonesiaOnly('Hospitalized', checkDataAvailabilityDeathsHospitalised(props.allDataIndonesia[props.allDataIndonesia.length - 1].TotalHospitalized))
+            createDataIndonesiaOnly('Hospitalized', checkDataAvailabilityDeathsHospitalised(props.allDataIndonesia[props.allDataIndonesia.length - 1].TotalHospitalized)),
+            createDataIndonesiaOnly('Cases per Million', checkDataAvailabilityCasesPerMillion(props.indCasesPerMillion))
         ];
     }
 }
@@ -45,8 +47,10 @@ const checkDataAvailability = (data, name) => {
     let number = "No Data";
     for (let i = 0; i < data.length; i++) {
         if (name === data[i].country) {
-            number = data[i].recovered
-            return number
+            if (data[i].recovered !== "NA") {
+                number = parseInt(data[i].recovered).toLocaleString("de-DE")
+                return number
+            }
         }
     }
     return number;
@@ -55,7 +59,16 @@ const checkDataAvailability = (data, name) => {
 const checkDataAvailabilityDeathsHospitalised = (data) => {
     let number = "No Data";
     if (data !== undefined && data !== "") {
-        number = parseInt(data)
+        number = parseInt(data).toLocaleString('de-DE')
+        return number
+    }
+    return number
+}
+
+const checkDataAvailabilityCasesPerMillion = (data) => {
+    let number = "No Data";
+    if (data !== undefined && data !== "") {
+        number = parseFloat(data).toLocaleString('de-DE')
         return number
     }
     return number

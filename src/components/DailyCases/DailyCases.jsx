@@ -1,8 +1,6 @@
 import React, { Component } from "react";
-import styles from './DailyCases.module.css'
 import {Card} from "react-bootstrap";
 import {LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer} from 'recharts';
-// import moment from "moment";
 
 // Karena pas buka page awal belum ada props buat yang selected, bakal bikin conditional rendering
 // Conditional rendering buat kalau belum ada props selected sama udah ada
@@ -11,36 +9,29 @@ import {LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Legend, Responsiv
 const dataToShowBoth = (props) => {
 
     const list = [];
-    // if (props.dailyIndonesia === undefined || props.dailySelected === undefined) {
-    //     return "data is not ready"
-    // }
     props.dailyIndonesia.map((ind) => {
         props.dailySelected.map((scl) => {
             if (ind.Tanggal === scl.Tanggal) {
                 if (ind.NewConfirmed === "") {
                     list.push({
-                        // name: moment(obj.date).format("DD-MM-YYYY"),
                         date:ind.Tanggal,
                         indonesia: 0,
                         selected : parseInt(scl.NewConfirmed)
                     })
                 } else if (scl.NewConfirmed === "") {
                     list.push({
-                        // name: moment(obj.date).format("DD-MM-YYYY"),
                         date:ind.Tanggal,
                         indonesia: parseInt(ind.NewConfirmed),
                         selected : 0
                     })
                 } else if (scl.NewConfirmed === "" && ind.NewConfirmed === "") {
                     list.push({
-                        // name: moment(obj.date).format("DD-MM-YYYY"),
                         date:ind.Tanggal,
                         indonesia: 0,
                         selected : 0
                     })
                 } else {
                     list.push({
-                        // name: moment(obj.date).format("DD-MM-YYYY"),
                         date:ind.Tanggal,
                         indonesia: parseInt(ind.NewConfirmed),
                         selected : parseInt(scl.NewConfirmed)
@@ -49,8 +40,6 @@ const dataToShowBoth = (props) => {
             }
         })
     })
-    // console.log("After mapping");
-    // console.log(list);
     return list;
 }
 
@@ -73,14 +62,9 @@ const dataToShow = (props) => {
     })
     return list;
 }
-// const selectedName = "Selected's total case";
+
 class DailyCases extends Component {
     render() {
-        // console.log("this is daily")
-        // console.log(this.props.indonesiaCode)
-        // console.log(this.props.selectedCode)
-        // console.log(this.props.dailyIndonesia)
-        // console.log(this.props.dailySelected)
         if (this.props.dailySelected === undefined || this.props.dailySelected.length === 0) {
             return (
                 <React.Fragment>

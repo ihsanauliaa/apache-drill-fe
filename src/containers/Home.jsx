@@ -23,16 +23,19 @@ class Home extends Component {
         IndonesiaName: "Indonesia",
         SelectedName: "",
         Recovered: [],
+        IndonesiaCasesPerMillion: "",
         isSelected: false,
         isLoadingIndonesia: true,
         isLoadingCountryList: true,
-        isLoadingRecovered: true
+        isLoadingRecovered: true,
+        isLoadingIndonesiaCasesPerMillion: true
     }
 
     componentDidMount() {
         this.fetchCountry();
         this.fetchIndonesia();
         this.fetchRecovered();
+        this.fetchIndonesiaCasesPerMillion();
     }
 
     handleApply = (country_name, country_code) => {
@@ -44,6 +47,26 @@ class Home extends Component {
         }, () =>
             this.fetchSelected())
     };
+
+    fetchIndonesiaCasesPerMillion = () => {
+        const URL = "http://127.0.0.1:5000/";
+        fetch(URL + "indonesia-case-per-million", {
+            method: "GET",
+        }).then(response => {
+            return response.json();
+        }).then((data) => {
+            const fetchedData = [];
+            for (let key in data.data) {
+                fetchedData.push({
+                    ...data.data[key]
+                });
+            }
+            this.setState({
+                IndonesiaCasesPerMillion: fetchedData[0].CasesPerMillion,
+                isLoadingIndonesiaCasesPerMillion: false
+            });
+        })
+    }
 
     fetchCountry = () => {
         const URL = "http://127.0.0.1:5000/";
@@ -139,7 +162,7 @@ class Home extends Component {
     }
 
     render() {
-        if (this.state.isLoadingCountryList || this.state.isLoadingIndonesia || this.state.isLoadingRecovered) {
+        if (this.state.isLoadingCountryList || this.state.isLoadingIndonesia || this.state.isLoadingRecovered || this.state.isLoadingIndonesiaCasesPerMillion) {
             return (
                 <React.Fragment>
                     <Helmet>
@@ -186,7 +209,7 @@ class Home extends Component {
                                 <RecoveredStats indonesiaName={this.state.IndonesiaName} selectedName={this.state.SelectedName} indonesiaRecovered={this.state.TotalRecoveredIndonesia} indonesiaConfirmed={this.state.TotalConfirmedIndonesia} selectedConfirmed={this.state.TotalConfirmedSelected} listAPIRecovered={this.state.Recovered}/>
                             </Col>
                             <Col>
-                                <AccumDeadRecoveredHospitalized allDataIndonesia={this.state.DailyCasesIndonesia} allDataSelected={this.state.DailyCasesSelected} selectedName={this.state.SelectedName} listAPIRecovered={this.state.Recovered}/>
+                                <AccumDeadRecoveredHospitalized allDataIndonesia={this.state.DailyCasesIndonesia} allDataSelected={this.state.DailyCasesSelected} selectedName={this.state.SelectedName} listAPIRecovered={this.state.Recovered} indCasesPerMillion={this.state.IndonesiaCasesPerMillion}/>
                             </Col>
                         </Row>
                     </Container>

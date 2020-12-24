@@ -80,8 +80,8 @@ class RecoveredStats extends Component {
                                         <Col>
                                             <br/>
                                             <p style={{fontWeight: "550", fontSize: "24px"}}>{this.props.indonesiaName}</p>
-                                            <p style={{fontWeight: "450", fontSize: "18px", marginBottom: "5px"}}>Cumulative Recovered: {this.props.indonesiaRecovered}</p>
-                                            <p style={{fontWeight: "450", fontSize: "18px", marginBottom: "5px"}}>Cumulative Cases: {this.props.indonesiaConfirmed}</p>
+                                            <p style={{fontWeight: "450", fontSize: "18px", marginBottom: "5px"}}>Cumulative Recovered: {parseInt(this.props.indonesiaRecovered).toLocaleString("de-DE")}</p>
+                                            <p style={{fontWeight: "450", fontSize: "18px", marginBottom: "5px"}}>Cumulative Cases: {parseInt(this.props.indonesiaConfirmed).toLocaleString("de-DE")}</p>
                                         </Col>
                                     </Row>
                                 </Container>
@@ -123,8 +123,8 @@ class RecoveredStats extends Component {
                                             <Col>
                                                 <br/>
                                                 <p style={{fontWeight: "550", fontSize: "24px"}}>{this.props.indonesiaName}</p>
-                                                <p style={{fontWeight: "450", fontSize: "18px", marginBottom: "5px"}}>Cumulative Recovered: {this.props.indonesiaRecovered}</p>
-                                                <p style={{fontWeight: "450", fontSize: "18px", marginBottom: "5px"}}>Cumulative Cases: {this.props.indonesiaConfirmed}</p>
+                                                <p style={{fontWeight: "450", fontSize: "18px", marginBottom: "5px"}}>Cumulative Recovered: {parseInt(this.props.indonesiaRecovered).toLocaleString("de-DE")}</p>
+                                                <p style={{fontWeight: "450", fontSize: "18px", marginBottom: "5px"}}>Cumulative Cases: {parseInt(this.props.indonesiaConfirmed).toLocaleString("de-DE")}</p>
                                             </Col>
                                         </Row>
                                         <Row>
@@ -140,7 +140,7 @@ class RecoveredStats extends Component {
                                                 <br/>
                                                 <p style={{fontWeight: "550", fontSize: "24px"}}>{this.props.selectedName}</p>
                                                 <p style={{fontWeight: "450", fontSize: "18px", marginBottom: "5px"}}>Cumulative Recovered: No Data Available</p>
-                                                <p style={{fontWeight: "450", fontSize: "18px", marginBottom: "5px"}}>Cumulative Cases: {this.props.selectedConfirmed}</p>
+                                                <p style={{fontWeight: "450", fontSize: "18px", marginBottom: "5px"}}>Cumulative Cases: {parseInt(this.props.selectedConfirmed).toLocaleString("de-DE")}</p>
                                             </Col>
                                         </Row>
                                     </Container>
@@ -181,8 +181,8 @@ class RecoveredStats extends Component {
                                             <Col>
                                                 <br/>
                                                 <p style={{fontWeight: "550", fontSize: "24px"}}>{this.props.indonesiaName}</p>
-                                                <p style={{fontWeight: "450", fontSize: "18px", marginBottom: "5px"}}>Cumulative Recovered: {this.props.indonesiaRecovered}</p>
-                                                <p style={{fontWeight: "450", fontSize: "18px", marginBottom: "5px"}}>Cumulative Cases: {this.props.indonesiaConfirmed}</p>
+                                                <p style={{fontWeight: "450", fontSize: "18px", marginBottom: "5px"}}>Cumulative Recovered: {parseInt(this.props.indonesiaRecovered).toLocaleString("de-DE")}</p>
+                                                <p style={{fontWeight: "450", fontSize: "18px", marginBottom: "5px"}}>Cumulative Cases: {parseInt(this.props.indonesiaConfirmed).toLocaleString("de-DE")}</p>
                                             </Col>
                                         </Row>
                                         <Row>
@@ -209,8 +209,8 @@ class RecoveredStats extends Component {
                                             <Col>
                                                 <br/>
                                                 <p style={{fontWeight: "550", fontSize: "24px"}}>{this.props.selectedName}</p>
-                                                <p style={{fontWeight: "450", fontSize: "18px", marginBottom: "5px"}}>Cumulative Recovered: {checkDataAvailability(this.props.listAPIRecovered, this.props.selectedName)}</p>
-                                                <p style={{fontWeight: "450", fontSize: "18px", marginBottom: "5px"}}>Cumulative Cases: {this.props.selectedConfirmed}</p>
+                                                <p style={{fontWeight: "450", fontSize: "18px", marginBottom: "5px"}}>Cumulative Recovered: {parseInt(checkDataAvailability(this.props.listAPIRecovered, this.props.selectedName)).toLocaleString("de-DE")}</p>
+                                                <p style={{fontWeight: "450", fontSize: "18px", marginBottom: "5px"}}>Cumulative Cases: {parseInt(this.props.selectedConfirmed).toLocaleString("de-DE")}</p>
                                             </Col>
                                         </Row>
                                     </Container>

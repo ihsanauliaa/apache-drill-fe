@@ -29,7 +29,7 @@ const rows = (props) => {
             createData('Confirmed', checkDataAvailabilityDeathsHospitalised(props.allDataIndonesia[props.allDataIndonesia.length - 1].TotalConfirmed), checkDataAvailabilityDeathsHospitalised(props.allDataSelected[props.allDataSelected.length - 1].TotalConfirmed)),
             createData('Recovered', checkDataAvailabilityDeathsHospitalised(props.allDataIndonesia[props.allDataIndonesia.length - 1].TotalRecovered), checkDataAvailability(props.listAPIRecovered, props.selectedName)),
             createData('Dead', checkDataAvailabilityDeathsHospitalised(props.allDataIndonesia[props.allDataIndonesia.length - 1].TotalDeaths), checkDataAvailabilityDeathsHospitalised(props.allDataSelected[props.allDataSelected.length - 1].TotalDeaths)),
-            createData('Hospitalized', checkDataAvailabilityDeathsHospitalised(props.allDataIndonesia[props.allDataIndonesia.length - 1].TotalHospitalised), checkDataAvailabilityDeathsHospitalised(props.allDataSelected[props.allDataSelected.length - 1].TotalHospitalised))
+            createData('Hospitalized', checkDataAvailabilityDeathsHospitalised(props.allDataIndonesia[props.allDataIndonesia.length - 1].TotalHospitalized), checkDataAvailabilityDeathsHospitalised(props.allDataSelected[props.allDataSelected.length - 1].TotalHospitalised))
         ];
         return data;
     }
@@ -41,7 +41,7 @@ const rowsIndonesiaOnly = (props) => {
             createDataIndonesiaOnly('Confirmed', checkDataAvailabilityDeathsHospitalised(props.allDataIndonesia[props.allDataIndonesia.length - 1].TotalConfirmed)),
             createDataIndonesiaOnly('Recovered', checkDataAvailabilityDeathsHospitalised(props.allDataIndonesia[props.allDataIndonesia.length - 1].TotalRecovered)),
             createDataIndonesiaOnly('Dead', checkDataAvailabilityDeathsHospitalised(props.allDataIndonesia[props.allDataIndonesia.length - 1].TotalDeaths)),
-            createDataIndonesiaOnly('Hospitalized', checkDataAvailabilityDeathsHospitalised(props.allDataIndonesia[props.allDataIndonesia.length - 1].TotalHospitalised))
+            createDataIndonesiaOnly('Hospitalized', checkDataAvailabilityDeathsHospitalised(props.allDataIndonesia[props.allDataIndonesia.length - 1].TotalHospitalized))
         ];
     }
 }
@@ -51,7 +51,6 @@ const checkDataAvailability = (data, name) => {
     for (let i = 0; i < data.length; i++) {
         // console.log(data[i].country)
         if (name === data[i].country) {
-            console.log("ada")
             number = data[i].recovered
             return number
         }
@@ -61,8 +60,7 @@ const checkDataAvailability = (data, name) => {
 
 const checkDataAvailabilityDeathsHospitalised = (data) => {
     let number = "No Data";
-    // console.log(data)
-    if (data !== undefined) {
+    if (data !== undefined && data !== "") {
         number = parseInt(data)
         return number
     }
@@ -99,10 +97,11 @@ class AccumDeadRecoveredHospitalized extends Component {
         // console.log(rows(this.props))
         // console.log(this.props)
         // console.log(this.state.data)
-        // console.log(this.props.allDataIndonesia[this.props.allDataIndonesia.length - 1].TotalHospitalised)
         // console.log()
         // console.log(this.props.listAPIRecovered)
         // console.log(this.props.selectedName)
+        // console.log(this.props.allDataSelected)
+        // console.log(checkDataAvailabilityDeathsHospitalised(this.props.allDataSelected[this.props.allDataSelected.length - 1]))
         if (this.props.allDataSelected.length === 0) {
             return (
                 <React.Fragment>

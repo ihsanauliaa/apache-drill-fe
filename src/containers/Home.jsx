@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Helmet } from 'react-helmet';
-import {Col, Container, Row} from "react-bootstrap";
+import {Col, Container, Row, Spinner} from "react-bootstrap";
 import DailyCases from "../components/DailyCases/DailyCases";
 import RecoveredStats from "../components/RecoveredStats/RecoveredStats";
 import AccumDeadRecoveredHospitalized
@@ -53,8 +53,8 @@ class Home extends Component {
     };
 
     fetchCountry = () => {
-        const URL = "https://run.mocky.io/";
-        fetch(URL + "v3/9f5223f7-864d-489b-af1f-11cf2d070bfa", {
+        const URL = "http://127.0.0.1:5000/";
+        fetch(URL + "countries", {
             method: "GET",
         }).then(response => {
             return response.json();
@@ -93,8 +93,8 @@ class Home extends Component {
     }
 
     fetchIndonesia = () => {
-        const URL = "https://run.mocky.io/";
-        fetch(URL + "v3/70f501d1-87f4-4e84-a4f0-aa0e71817086", {
+        const URL = "http://127.0.0.1:5000/";
+        fetch(URL + "indonesia", {
             method: "GET",
         }).then(response => {
             return response.json();
@@ -104,15 +104,15 @@ class Home extends Component {
             let confirmedIndonesia;
             // let codeIndonesia;
             let dailyIndonesia;
-            for (let key in data.result) {
+            for (let key in data.data) {
                 fetchedData.push({
-                    ...data.result[key]
+                    ...data.data[key]
                 });
             }
-            recoveredIndonesia = data.result[data.result.length - 1].TotalRecovered;
-            confirmedIndonesia = data.result[data.result.length - 1].TotalConfirmed;
+            recoveredIndonesia = data.data[data.data.length - 1].TotalRecovered;
+            confirmedIndonesia = data.data[data.data.length - 1].TotalConfirmed;
             // codeIndonesia = data.result[0].code;
-            dailyIndonesia = data.result;
+            dailyIndonesia = data.data;
             this.setState({
                 // AllDataIndonesia: fetchedData,
                 TotalRecoveredIndonesia: parseInt(recoveredIndonesia),
@@ -184,7 +184,14 @@ class Home extends Component {
                         position: 'absolute', left: '50%', top: '50%',
                         transform: 'translate(-50%, -50%)'
                     }}>
-                        <h1 className="font-weight-bolder">Loading ...</h1>
+                        <Spinner animation="grow" variant="primary" />
+                        <Spinner animation="grow" variant="secondary" />
+                        <Spinner animation="grow" variant="success" />
+                        <Spinner animation="grow" variant="danger" />
+                        <Spinner animation="grow" variant="warning" />
+                        <Spinner animation="grow" variant="info" />
+                        <Spinner animation="grow" variant="light" />
+                        <Spinner animation="grow" variant="dark" />
                     </div>
                 </React.Fragment>
             )

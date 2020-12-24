@@ -88,7 +88,7 @@ class DailyCases extends Component {
                         <Card>
                             <Card.Header style={{fontWeight: "550", fontSize: "20px"}}>Daily Cases</Card.Header>
                             <Card.Body style={{ minHeight: "100"}}>
-                                <ResponsiveContainer width="100%" height={450}>
+                                <ResponsiveContainer width="100%" height={480}>
                                     <LineChart width={730} height={250} data={dataToShow(this.props)}
                                                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
                                         <CartesianGrid strokeDasharray="3 3" />
@@ -96,7 +96,7 @@ class DailyCases extends Component {
                                         <YAxis />
                                         <Tooltip />
                                         <Legend />
-                                        <Line type="monotone" dataKey="indonesia" name="Indonesia's total case" stroke="#8884d8" />
+                                        <Line type="monotone" dataKey="indonesia" name="Indonesia's daily case" stroke="#8884d8" />
                                     </LineChart>
                                 </ResponsiveContainer>
                             </Card.Body>
@@ -111,7 +111,7 @@ class DailyCases extends Component {
                         <Card>
                             <Card.Header style={{fontWeight: "550", fontSize: "20px"}}>Daily Cases</Card.Header>
                             <Card.Body style={{ minHeight: "100"}}>
-                                <ResponsiveContainer width="100%" height={450}>
+                                <ResponsiveContainer width="100%" height={480}>
                                     <LineChart data={dataToShowBoth(this.props)}
                                                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
                                         <CartesianGrid strokeDasharray="3 3" />

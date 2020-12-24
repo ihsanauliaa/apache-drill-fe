@@ -59,6 +59,9 @@ class RecoveredStats extends Component {
         // console.log(this.props.indonesiaRecovered)
         // console.log(this.props.selectedRecovered)
         // console.log(this.props.selectedName)
+        // console.log(this.props.listAPIRecovered)
+        // console.log(this.props.selectedName)
+        console.log(this.props.indonesiaRecovered)
         if (this.props.selectedName === "") {
             return (
                 <React.Fragment>
@@ -139,6 +142,14 @@ class RecoveredStats extends Component {
                                             </Col>
                                         </Row>
                                         <Row>
+                                            <Col>
+                                                <div style={{
+                                                    position: 'absolute', left: '50%', top: '50%',
+                                                    transform: 'translate(-50%, -50%)'
+                                                }}>
+                                                    <h3 className="font-weight-normal">No data</h3>
+                                                </div>
+                                            </Col>
                                             <Col>
                                                 <br/>
                                                 <p style={{fontWeight: "550", fontSize: "24px"}}>{this.props.selectedName}</p>

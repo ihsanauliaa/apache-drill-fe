@@ -191,7 +191,7 @@ class Home extends Component {
                     </Helmet>
                     <Container fluid>
                         <div style={{ display: "inline-block"}}>
-                            <h2 style={{ paddingTop: "2rem", paddingBottom: "1rem", marginRight: "10px"}}>Compare Indonesia with: </h2>
+                            <h2 style={{ paddingTop: "2rem", paddingBottom: "1rem", marginRight: "10px"}}>Compare Indonesia COVID data with: </h2>
                         </div>
                         <div style={{ display: "inline-block", minWidth: "40%", paddingBottom: "1rem"}}>
                             <Select

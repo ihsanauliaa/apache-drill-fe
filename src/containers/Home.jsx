@@ -12,8 +12,6 @@ const TITLE = 'Kelompok 16 - Apache Drill'
 class Home extends Component {
     state = {
         countryList: [],
-        // AllDataIndonesia: [],
-        // AllDataSelected: [],
         ISOCodeIndonesia: "",
         ISOCodeSelected: "",
         TotalRecoveredIndonesia: "",
@@ -27,7 +25,6 @@ class Home extends Component {
         Recovered: [],
         isSelected: false,
         isLoadingIndonesia: true,
-        // isLoadingSelected: true,
         isLoadingCountryList: true,
         isLoadingRecovered: true
     }
@@ -35,21 +32,17 @@ class Home extends Component {
     componentDidMount() {
         this.fetchCountry();
         this.fetchIndonesia();
-        // this.fetchSelected();
         this.fetchRecovered();
     }
 
     handleApply = (country_name, country_code) => {
-        // console.log(country_code)
         let name = country_name
         let code = country_code
-        // console.log(name)
         this.setState({
             SelectedName: name,
             ISOCodeSelected: code
         }, () =>
             this.fetchSelected())
-        // this.fetchSelected();
     };
 
     fetchCountry = () => {
@@ -111,13 +104,10 @@ class Home extends Component {
             }
             recoveredIndonesia = data.data[data.data.length - 1].TotalRecovered;
             confirmedIndonesia = data.data[data.data.length - 1].TotalConfirmed;
-            // codeIndonesia = data.result[0].code;
             dailyIndonesia = data.data;
             this.setState({
-                // AllDataIndonesia: fetchedData,
                 TotalRecoveredIndonesia: parseInt(recoveredIndonesia),
                 TotalConfirmedIndonesia: parseInt(confirmedIndonesia),
-                // ISOCodeIndonesia: codeIndonesia,
                 DailyCasesIndonesia: dailyIndonesia,
                 isLoadingIndonesia: false
             });
@@ -126,55 +116,30 @@ class Home extends Component {
 
     fetchSelected = () => {
         const URL = "http://127.0.0.1:5000/";
-        // console.log(URL + "country?iso=" + this.state.ISOCodeSelected)
         fetch(URL + "country?iso=" + this.state.ISOCodeSelected, {
             method: "GET",
         }).then(response => {
             return response.json();
         }).then((data) => {
             const fetchedData = [];
-            // let recoveredSelected;
             let confirmedSelected;
-            // let codeSelected;
             let dailySelected;
             for (let key in data.result) {
                 fetchedData.push({
                     ...data.result[key]
                 });
             }
-            // recoveredSelected = data.result[data.result.length - 1].TotalRecovered;
             confirmedSelected = data.result[data.result.length - 1].TotalConfirmed;
-            // codeSelected = data.result[data.result.length - 1].code;
             dailySelected = data.result;
-            // console.log(data.result)
             this.setState({
-                // AllDataSelected: fetchedData,
-                // TotalRecoveredSelected: recoveredSelected,
                 TotalConfirmedSelected: parseInt(confirmedSelected),
-                // ISOCodeSelected: codeSelected,
                 DailyCasesSelected: dailySelected,
-                // isLoadingSelected: false
             });
         })
     }
 
     render() {
-        // console.log("this is home")
-        // console.log(this.state.AllDataIndonesia)
-        // console.log(this.state.DailyCasesIndonesia)
-        // console.log(this.state.DailyCasesSelected)
-        // console.log(this.state.AllDataSelected)
-        // console.log(this.state.TotalConfirmedSelected)
-        // console.log(this.state.TotalRecoveredSelected)
-        // console.log(this.state.DailyCasesSelected)
-        // console.log(this.state.DailyCasesIndonesia)
-        // console.log(this.state.TotalConfirmedSelected)
-        // console.log(this.state.TotalConfirmedIndonesia)
-        // console.log(this.state.TotalRecoveredIndonesia)
-        // console.log(this.state.SelectedName)
-        // console.log(this.state.ISOCodeSelected)
         if (this.state.isLoadingCountryList || this.state.isLoadingIndonesia || this.state.isLoadingRecovered) {
-            // console.log(this.state.Recovered)
             return (
                 <React.Fragment>
                     <Helmet>

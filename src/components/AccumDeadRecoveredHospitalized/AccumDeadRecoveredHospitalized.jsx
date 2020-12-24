@@ -1,7 +1,5 @@
 import React, { Component } from "react";
-import styles from './AccumDeadRecoveredHospitalized.module.css'
 import {Card} from "react-bootstrap";
-import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -20,10 +18,7 @@ function createDataIndonesiaOnly(komponen, valId) {
 }
 
 const rows = (props) => {
-    // console.log(">>>rows<<<");
-    // console.log(props);
-    // console.log(props.allDataIndonesia.length)
-    // console.log(props.allDataSelected.length)
+
     if (props.allDataIndonesia.length !== 0 && props.allDataSelected.length !== 0) {
         const data = [
             createData('Confirmed', checkDataAvailabilityDeathsHospitalised(props.allDataIndonesia[props.allDataIndonesia.length - 1].TotalConfirmed), checkDataAvailabilityDeathsHospitalised(props.allDataSelected[props.allDataSelected.length - 1].TotalConfirmed)),
@@ -49,7 +44,6 @@ const rowsIndonesiaOnly = (props) => {
 const checkDataAvailability = (data, name) => {
     let number = "No Data";
     for (let i = 0; i < data.length; i++) {
-        // console.log(data[i].country)
         if (name === data[i].country) {
             number = data[i].recovered
             return number
@@ -68,40 +62,11 @@ const checkDataAvailabilityDeathsHospitalised = (data) => {
 }
 
 class AccumDeadRecoveredHospitalized extends Component {
-    // constructor(props)
-    // {
-    //     super(props);
-    //     this.state = { data : rows(this.props)};
-    // }
-    // state = {
-    //     data: rows(this.props)
-    // }
     state = {
         data: []
     }
 
-    // checkSelectedAvailability = (data) => {
-    //     if (data.length !== 0) {
-    //         this.setState({
-    //             data: rows(data)
-    //         }, () =>
-    //             console.log(this.state.data))
-    //     }
-    //     return this.state.data
-    // }
-
     render() {
-        // console.log("data tabel <<<<<")
-        // console.log(rows(this.props))
-        // console.log("<<< props <<<")
-        // console.log(rows(this.props))
-        // console.log(this.props)
-        // console.log(this.state.data)
-        // console.log()
-        // console.log(this.props.listAPIRecovered)
-        // console.log(this.props.selectedName)
-        // console.log(this.props.allDataSelected)
-        // console.log(checkDataAvailabilityDeathsHospitalised(this.props.allDataSelected[this.props.allDataSelected.length - 1]))
         if (this.props.allDataSelected.length === 0) {
             return (
                 <React.Fragment>
@@ -151,7 +116,6 @@ class AccumDeadRecoveredHospitalized extends Component {
                                         {rows(this.props).map((data) => (
                                             <TableRow key={data.komponen}>
                                                 <TableCell component="th" scope="row">
-                                                    {/*{console.log(data.komponen)}*/}
                                                     {data.komponen}
                                                 </TableCell>
                                                 <TableCell align="right">{data.valId}</TableCell>

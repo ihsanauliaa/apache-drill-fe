@@ -48,20 +48,6 @@ class RecoveredStats extends Component {
         return percentageSelectedString;
     }
     render() {
-        // console.log(this.state.data)
-        // console.log(this.calculatePercentageIndonesia())
-        // console.log(this.calculatePercentageSelected())
-        // console.log(this.props.indonesiaCode)
-        // console.log(this.props.selectedCode)
-        // console.log(fillData(this.props.indonesiaConfirmed, this.props.indonesiaRecovered))
-        // console.log(this.props.indonesiaConfirmed)
-        // console.log(this.props.selectedConfirmed)
-        // console.log(this.props.indonesiaRecovered)
-        // console.log(this.props.selectedRecovered)
-        // console.log(this.props.selectedName)
-        // console.log(this.props.listAPIRecovered)
-        // console.log(this.props.selectedName)
-        console.log(this.props.indonesiaRecovered)
         if (this.props.selectedName === "") {
             return (
                 <React.Fragment>

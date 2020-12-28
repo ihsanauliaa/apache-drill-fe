@@ -23,6 +23,7 @@ class Home extends Component {
         IndonesiaName: "Indonesia",
         SelectedName: "",
         Recovered: [],
+        HospitalisedSelected: [],
         IndonesiaCasesPerMillion: "",
         isSelected: false,
         isLoadingIndonesia: true,
@@ -44,8 +45,10 @@ class Home extends Component {
         this.setState({
             SelectedName: name,
             ISOCodeSelected: code
-        }, () =>
-            this.fetchSelected())
+        }, () => {
+            this.fetchSelected();
+            this.fetchHospitalisedSelected()
+        })
     };
 
     fetchIndonesiaCasesPerMillion = () => {
@@ -161,6 +164,25 @@ class Home extends Component {
         })
     }
 
+    fetchHospitalisedSelected = () => {
+        const URL = "http://127.0.0.1:5000/";
+        fetch(URL + "get-hospitalised-selected?iso=" + this.state.ISOCodeSelected, {
+            method: "GET",
+        }).then(response => {
+            return response.json();
+        }).then((data) => {
+            const fetchedData = [];
+            for (let key in data.data) {
+                fetchedData.push({
+                    ...data.data[key]
+                });
+            }
+            this.setState({
+                HospitalisedSelected: fetchedData,
+            });
+        })
+    }
+
     render() {
         if (this.state.isLoadingCountryList || this.state.isLoadingIndonesia || this.state.isLoadingRecovered || this.state.isLoadingIndonesiaCasesPerMillion) {
             return (
@@ -209,7 +231,7 @@ class Home extends Component {
                                 <RecoveredStats indonesiaName={this.state.IndonesiaName} selectedName={this.state.SelectedName} indonesiaRecovered={this.state.TotalRecoveredIndonesia} indonesiaConfirmed={this.state.TotalConfirmedIndonesia} selectedConfirmed={this.state.TotalConfirmedSelected} listAPIRecovered={this.state.Recovered}/>
                             </Col>
                             <Col>
-                                <AccumDeadRecoveredHospitalized allDataIndonesia={this.state.DailyCasesIndonesia} allDataSelected={this.state.DailyCasesSelected} selectedName={this.state.SelectedName} listAPIRecovered={this.state.Recovered} indCasesPerMillion={this.state.IndonesiaCasesPerMillion}/>
+                                <AccumDeadRecoveredHospitalized allDataIndonesia={this.state.DailyCasesIndonesia} allDataSelected={this.state.DailyCasesSelected} selectedName={this.state.SelectedName} listAPIRecovered={this.state.Recovered} indCasesPerMillion={this.state.IndonesiaCasesPerMillion} hospitalisedSelected={this.state.HospitalisedSelected}/>
                             </Col>
                         </Row>
                     </Container>

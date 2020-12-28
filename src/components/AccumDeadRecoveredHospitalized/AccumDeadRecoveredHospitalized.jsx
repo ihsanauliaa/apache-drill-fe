@@ -24,7 +24,7 @@ const rows = (props) => {
             createData('Confirmed', checkDataAvailabilityDeathsHospitalised(props.allDataIndonesia[props.allDataIndonesia.length - 1].TotalConfirmed), checkDataAvailabilityDeathsHospitalised(props.allDataSelected[props.allDataSelected.length - 1].TotalConfirmed)),
             createData('Recovered', checkDataAvailabilityDeathsHospitalised(props.allDataIndonesia[props.allDataIndonesia.length - 1].TotalRecovered), checkDataAvailability(props.listAPIRecovered, props.selectedName)),
             createData('Dead', checkDataAvailabilityDeathsHospitalised(props.allDataIndonesia[props.allDataIndonesia.length - 1].TotalDeaths), checkDataAvailabilityDeathsHospitalised(props.allDataSelected[props.allDataSelected.length - 1].TotalDeaths)),
-            createData('Hospitalized', checkDataAvailabilityDeathsHospitalised(props.allDataIndonesia[props.allDataIndonesia.length - 1].TotalHospitalized), checkDataAvailabilityDeathsHospitalised(props.allDataSelected[props.allDataSelected.length - 1].TotalHospitalised)),
+            createData('Hospitalized', checkDataAvailabilityDeathsHospitalised(props.allDataIndonesia[props.allDataIndonesia.length - 1].TotalHospitalized), checkLatestHospitalised(props.hospitalisedSelected)),
             createData('Cases per Million', checkDataAvailabilityCasesPerMillion(props.indCasesPerMillion), checkDataAvailabilityCasesPerMillion(props.allDataSelected[props.allDataSelected.length - 1].CasesPerMillion))
         ];
         return data;
@@ -74,12 +74,26 @@ const checkDataAvailabilityCasesPerMillion = (data) => {
     return number
 }
 
+const checkLatestHospitalised = (data) => {
+    let number = "No Data";
+    if (data.length > 0) {
+        number = parseFloat(data[0].TotalHospitalized).toLocaleString('de-DE')
+        number = number + " (" + data[0].Tanggal + ")"
+        return number
+    }
+    return number
+}
+
 class AccumDeadRecoveredHospitalized extends Component {
     state = {
         data: []
     }
 
     render() {
+        // console.log(checkLatestHospitalised(this.props.allDataSelected))
+        // console.log(this.props.allDataSelected)
+        // console.log(this.props.allDataSelected[this.props.allDataSelected.length - 1])
+        console.log(this.props.allDataIndonesia[this.props.allDataIndonesia.length - 1].Tanggal)
         if (this.props.allDataSelected.length === 0) {
             return (
                 <React.Fragment>
